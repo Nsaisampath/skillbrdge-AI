@@ -179,6 +179,15 @@ export function StudentDashboard() {
     }
   }
 
+  // Reset evaluation and allow re-submission
+  const handleResetEvaluation = () => {
+    setEvaluation(null)
+    setProfileStatus('draft')
+    setResumeFileName('')
+    setSuccess('✨ Evaluation reset! You can now submit a new profile for evaluation.')
+    setTimeout(() => setSuccess(''), 5000)
+  }
+
   // Submit for evaluation
   const handleSubmitForEvaluation = async () => {
     if (!resumeFileName) {
@@ -558,7 +567,16 @@ export function StudentDashboard() {
             <div className="lg:col-span-3 space-y-6" ref={resultsRef}>
                 {/* Main Score Card */}
                 <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-xl p-10 text-white">
-                  <h2 className="text-3xl font-bold mb-6">🎯 Your Evaluation Results</h2>
+                  <div className="flex justify-between items-start mb-6">
+                    <h2 className="text-3xl font-bold">🎯 Your Evaluation Results</h2>
+                    <button
+                      onClick={handleResetEvaluation}
+                      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-all text-sm"
+                      title="Reset and submit a new profile for evaluation"
+                    >
+                      ↻ New Evaluation
+                    </button>
+                  </div>
                   <div className="grid grid-cols-2 gap-8">
                     <div>
                       <p className="text-purple-100 text-sm font-medium mb-2">Readiness Score</p>
