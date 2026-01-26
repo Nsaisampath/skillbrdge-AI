@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useTheme } from '../ThemeContext'
 
 export function PublicHomePage() {
   const navigate = useNavigate()
+  const { isDark, toggleTheme } = useTheme()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const handleLogin = () => {
@@ -16,34 +18,60 @@ export function PublicHomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDark 
+        ? 'bg-gradient-to-br from-black via-gray-900 to-black' 
+        : 'bg-gradient-to-br from-sky-100 via-cyan-50 to-blue-100'
+    }`}>
       {/* Navbar */}
-      <nav className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 backdrop-blur-lg sticky top-0 z-50 shadow-2xl">
+      <nav className={`backdrop-blur-lg sticky top-0 z-50 shadow-lg border-b transition-colors duration-300 ${
+        isDark
+          ? 'bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 border-gray-700'
+          : 'bg-gradient-to-br from-sky-200 via-cyan-100 to-blue-200 border-sky-300'
+      }`}>
         <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
           <div>
-            <h1 className="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">SkillBridge AI</h1>
-            <p className="text-base text-indigo-200 font-bold mt-2">✨ AI-Powered Evaluation Platform</p>
+            <h1 className={`text-5xl font-black bg-gradient-to-r ${
+              isDark
+                ? 'from-white via-gray-300 to-gray-200'
+                : 'from-indigo-700 via-purple-700 to-pink-700'
+            } bg-clip-text text-transparent drop-shadow-lg`}>SkillBridge AI</h1>
+            <p className={`text-base font-bold mt-2 ${isDark ? 'text-gray-300' : 'text-indigo-600'}`}>✨ AI-Powered Evaluation Platform</p>
           </div>
           
           {/* Profile Dropdown */}
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="group relative w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 transition-all shadow-xl hover:shadow-2xl border-2 border-indigo-400 border-opacity-60 hover:border-opacity-100 flex items-center justify-center text-2xl transform hover:scale-110"
+              className={`group relative w-14 h-14 rounded-full transition-all shadow-xl border-2 flex items-center justify-center text-2xl transform hover:scale-110 ${
+                isDark
+                  ? 'bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 border-gray-500 hover:shadow-2xl'
+                  : 'bg-gradient-to-br from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 border-indigo-400'
+              }`}
               title="Account Menu"
             >
               👤
-              <div className="absolute inset-0 bg-indigo-400 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 -z-10"></div>
+              <div className={`absolute inset-0 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 -z-10 ${isDark ? 'bg-gray-400' : 'bg-indigo-400'}`}></div>
             </button>
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-56 bg-gradient-to-br from-slate-800 to-indigo-900 rounded-xl shadow-2xl border border-indigo-500 border-opacity-60 backdrop-blur-lg z-50 overflow-hidden">
+              <div className={`absolute right-0 mt-3 w-56 rounded-xl shadow-2xl border backdrop-blur-lg z-50 overflow-hidden transition-colors duration-300 ${
+                isDark
+                  ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-gray-600'
+                  : 'bg-gradient-to-br from-slate-800 to-indigo-900 border-indigo-500 border-opacity-60'
+              }`}>
                 {/* Guest Section */}
-                <div className="border-b border-indigo-500 border-opacity-30 px-4 py-4">
-                  <p className="text-indigo-200 text-sm font-semibold mb-1">Welcome Guest</p>
-                  <p className="text-white font-bold text-sm">Not logged in</p>
-                  <div className="mt-3 inline-block px-3 py-1 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full text-white text-xs font-bold">
+                <div className={`border-b px-4 py-4 transition-colors duration-300 ${
+                  isDark ? 'border-gray-600' : 'border-indigo-500 border-opacity-30'
+                }`}>
+                  <p className={`text-sm font-semibold mb-1 ${isDark ? 'text-gray-300' : 'text-indigo-200'}`}>Welcome Guest</p>
+                  <p className={`font-bold text-sm ${isDark ? 'text-white' : 'text-white'}`}>Not logged in</p>
+                  <div className={`mt-3 inline-block px-3 py-1 rounded-full text-white text-xs font-bold transition-colors duration-300 ${
+                    isDark
+                      ? 'bg-gradient-to-r from-gray-600 to-gray-700'
+                      : 'bg-gradient-to-r from-gray-500 to-gray-600'
+                  }`}>
                     👤 Guest
                   </div>
                 </div>
@@ -52,7 +80,11 @@ export function PublicHomePage() {
                   {/* Login Option */}
                   <button
                     onClick={handleLogin}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-green-400 hover:bg-green-600 hover:bg-opacity-30 transition-all text-left font-semibold"
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold ${
+                      isDark
+                        ? 'text-green-400 hover:bg-green-900 hover:bg-opacity-20'
+                        : 'text-green-400 hover:bg-green-600 hover:bg-opacity-30'
+                    }`}
                   >
                     <span className="text-lg">🔓</span>
                     <span>Login</span>
@@ -61,10 +93,27 @@ export function PublicHomePage() {
                   {/* Register Option */}
                   <button
                     onClick={handleRegister}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-purple-400 hover:bg-purple-600 hover:bg-opacity-30 transition-all text-left font-semibold border-t border-indigo-500 border-opacity-30"
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold border-t ${
+                      isDark
+                        ? 'text-purple-400 hover:bg-purple-900 hover:bg-opacity-20 border-gray-600'
+                        : 'text-purple-400 hover:bg-purple-600 hover:bg-opacity-30 border-indigo-500 border-opacity-30'
+                    }`}
                   >
                     <span className="text-lg">✍️</span>
                     <span>Register</span>
+                  </button>
+
+                  {/* Theme Toggle */}
+                  <button
+                    onClick={toggleTheme}
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold border-t ${
+                      isDark
+                        ? 'text-yellow-400 hover:bg-yellow-900 hover:bg-opacity-20 border-gray-600'
+                        : 'text-yellow-600 hover:bg-yellow-100 border-indigo-500 border-opacity-30'
+                    }`}
+                  >
+                    <span className="text-lg">{isDark ? '☀️' : '🌙'}</span>
+                    <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
                   </button>
                 </div>
               </div>

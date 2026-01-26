@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
+import { useTheme } from '../ThemeContext'
 import { getAllStudentProfiles, getAllEvaluations } from '../firebaseDB'
 
 export function AdminDashboard() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const { isDark, toggleTheme } = useTheme()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const [students, setStudents] = useState([])
@@ -86,51 +88,79 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDark
+          ? 'bg-gradient-to-br from-black via-gray-900 to-black'
+          : 'bg-gradient-to-br from-sky-100 via-cyan-50 to-blue-100'
+      }`}>
         <div className="text-center">
           <div className="text-6xl mb-4 animate-spin">⏳</div>
-          <p className="text-indigo-200 text-lg font-semibold">Loading student data...</p>
+          <p className={`text-lg font-semibold ${isDark ? 'text-indigo-200' : 'text-indigo-700'}`}>Loading student data...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDark
+        ? 'bg-gradient-to-br from-black via-gray-900 to-black'
+        : 'bg-gradient-to-br from-sky-100 via-cyan-50 to-blue-100'
+    }`}>
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-400 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 right-20 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-indigo-400 rounded-full blur-3xl"></div>
+      <div className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-20'}`}>
+        <div className={`absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl ${isDark ? 'bg-gray-700' : 'bg-cyan-300'}`}></div>
+        <div className={`absolute top-1/2 right-20 w-80 h-80 rounded-full blur-3xl ${isDark ? 'bg-gray-700' : 'bg-sky-300'}`}></div>
+        <div className={`absolute bottom-20 left-1/3 w-72 h-72 rounded-full blur-3xl ${isDark ? 'bg-gray-700' : 'bg-blue-300'}`}></div>
       </div>
 
       {/* Navbar */}
-      <nav className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 backdrop-blur-md sticky top-0 z-50 shadow-2xl">
+      <nav className={`backdrop-blur-md sticky top-0 z-50 shadow-lg border-b transition-colors duration-300 ${
+        isDark
+          ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-black border-gray-700'
+          : 'bg-gradient-to-br from-sky-200 via-cyan-100 to-blue-200 border-sky-300'
+      }`}>
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center relative z-10">
           <div>
-            <h1 className="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">SkillBridge AI</h1>
-            <p className="text-sm text-indigo-200 font-bold mt-1">✨ AI-Powered Evaluation Platform</p>
+            <h1 className={`text-5xl font-black bg-clip-text text-transparent drop-shadow-lg bg-gradient-to-r ${
+              isDark
+                ? 'from-white via-gray-300 to-gray-200'
+                : 'from-indigo-700 via-purple-700 to-pink-700'
+            }`}>SkillBridge AI</h1>
+            <p className={`text-sm font-bold mt-1 ${isDark ? 'text-gray-300' : 'text-indigo-600'}`}>✨ AI-Powered Evaluation Platform</p>
           </div>
           
           {/* Profile Dropdown */}
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="group relative w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all shadow-xl hover:shadow-2xl border-2 border-blue-400 border-opacity-60 hover:border-opacity-100 flex items-center justify-center text-2xl transform hover:scale-110"
+              className={`group relative w-14 h-14 rounded-full hover:shadow-2xl transition-all shadow-xl border-2 flex items-center justify-center text-2xl transform hover:scale-110 ${
+                isDark
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 border-blue-400 border-opacity-60 hover:border-opacity-100'
+                  : 'bg-gradient-to-br from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600 border-blue-300 border-opacity-60 hover:border-opacity-100'
+              }`}
               title="Profile Menu"
             >
               👨‍💼
-              <div className="absolute inset-0 bg-blue-400 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 -z-10"></div>
+              <div className={`absolute inset-0 rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 -z-10 ${isDark ? 'bg-blue-400' : 'bg-blue-300'}`}></div>
             </button>
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-56 bg-gradient-to-br from-slate-800 to-indigo-900 rounded-xl shadow-2xl border border-blue-500 border-opacity-60 backdrop-blur-lg z-50 overflow-hidden">
+              <div className={`absolute right-0 mt-3 w-56 rounded-xl shadow-2xl border backdrop-blur-lg z-50 overflow-hidden transition-colors duration-300 ${
+                isDark
+                  ? 'bg-gradient-to-br from-slate-800 to-indigo-900 border-blue-500 border-opacity-60'
+                  : 'bg-gradient-to-br from-slate-50 to-indigo-50 border-blue-200 border-opacity-60'
+              }`}>
                 {/* Profile Section */}
-                <div className="border-b border-blue-500 border-opacity-30 px-4 py-4">
-                  <p className="text-blue-200 text-sm font-semibold mb-1">Logged in as</p>
-                  <p className="text-white font-bold text-sm truncate">{user?.email}</p>
-                  <div className="mt-3 inline-block px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white text-xs font-bold">
+                <div className={`border-b px-4 py-4 ${isDark ? 'border-blue-500 border-opacity-30' : 'border-blue-200 border-opacity-40'}`}>
+                  <p className={`text-sm font-semibold mb-1 ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>Logged in as</p>
+                  <p className={`font-bold text-sm truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>{user?.email}</p>
+                  <div className={`mt-3 inline-block px-3 py-1 rounded-full text-white text-xs font-bold ${
+                    isDark
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600'
+                      : 'bg-gradient-to-r from-blue-400 to-purple-500'
+                  }`}>
                     👨‍💼 Admin
                   </div>
                 </div>
@@ -143,7 +173,11 @@ export function AdminDashboard() {
                       navigate('/')
                       setIsDropdownOpen(false)
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-blue-400 hover:bg-blue-600 hover:bg-opacity-30 transition-all text-left font-semibold"
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold ${
+                      isDark
+                        ? 'text-blue-400 hover:bg-blue-600 hover:bg-opacity-30'
+                        : 'text-blue-600 hover:bg-blue-100'
+                    }`}
                   >
                     <span className="text-lg">🏠</span>
                     <span>Home</span>
@@ -152,10 +186,27 @@ export function AdminDashboard() {
                   {/* Logout Option */}
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-600 hover:bg-opacity-30 transition-all text-left font-semibold border-t border-blue-500 border-opacity-30"
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold border-t ${
+                      isDark
+                        ? 'text-red-400 hover:bg-red-600 hover:bg-opacity-30 border-blue-500 border-opacity-30'
+                        : 'text-red-600 hover:bg-red-100 border-blue-200 border-opacity-40'
+                    }`}
                   >
                     <span className="text-lg">🚪</span>
                     <span>Logout</span>
+                  </button>
+
+                  {/* Theme Toggle */}
+                  <button
+                    onClick={toggleTheme}
+                    className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left font-semibold border-t ${
+                      isDark
+                        ? 'text-yellow-400 hover:bg-yellow-900 hover:bg-opacity-20 border-gray-600'
+                        : 'text-yellow-600 hover:bg-yellow-100 border-blue-200 border-opacity-40'
+                    }`}
+                  >
+                    <span className="text-lg">{isDark ? '☀️' : '🌙'}</span>
+                    <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
                   </button>
                 </div>
               </div>
