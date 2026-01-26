@@ -1,0 +1,51 @@
+╔════════════════════════════════════════════════════════════════╗
+║     SKILLBRIDGE AI - CLOUD FUNCTIONS SETUP (QUICK GUIDE)       ║
+╚════════════════════════════════════════════════════════════════╝
+
+📦 WHAT'S DEPLOYED:
+  ✅ evaluateStudentProfile() - AI evaluation function
+  ✅ healthCheck() - Health check endpoint
+  ✅ getEvaluation() - Fetch results function
+
+🔑 GROQ API SETUP:
+  1. Visit: https://console.groq.com
+  2. Sign up (FREE)
+  3. Create API key
+  4. Copy: sk-xxxxx...
+
+⚙️ FIREBASE CLI SETUP:
+  1. npm install -g firebase-tools
+  2. firebase login
+  3. firebase functions:config:set groq.apikey="sk-xxxxx"
+
+🚀 DEPLOY:
+  cd project root
+  firebase deploy --only functions
+
+✅ VERIFY:
+  firebase functions:log
+
+📁 FILES STRUCTURE:
+  functions/
+  ├── index.js (3 cloud functions)
+  ├── package.json (dependencies)
+  └── .gitignore
+
+🔒 SECURITY:
+  • API keys NOT in code
+  • Stored in environment variables
+  • Only authenticated users can call
+  • Results saved to Firestore
+
+📊 AI FLOW:
+  Student submits → Cloud Function → Groq API → Firestore → Results
+
+⏱️ TIME TO DEPLOY: 5-10 minutes
+
+📚 DOCUMENTATION:
+  • CLOUD_FUNCTIONS_GUIDE.md - Detailed guide
+  • CLOUD_FUNCTIONS_SETUP.md - Setup steps
+
+🎯 NEXT: After deploying, update StudentDashboard to call the function!
+
+════════════════════════════════════════════════════════════════

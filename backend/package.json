@@ -1,0 +1,20 @@
+{
+  "name": "skillbridge-ai-backend",
+  "version": "1.0.0",
+  "description": "Free backend for SkillBridge AI using Groq API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "groq-sdk": "^0.5.0"
+  },
+  "engines": {
+    "node": "18"
+  }
+}
