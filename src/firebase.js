@@ -6,7 +6,6 @@ import { getStorage } from 'firebase/storage'
 // TODO: Replace these with your Firebase project credentials
 // Get these from Firebase Console > Project Settings
 const firebaseConfig = {
-  apiKey: "AIzaSyApaC6NDTHlthdXBBcI6_wALZFfMqnPkXE",
   authDomain: "skillbridge-ai-57f85.firebaseapp.com",
   projectId: "skillbridge-ai-57f85",
   storageBucket: "skillbridge-ai-57f85.firebasestorage.app",
